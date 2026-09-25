@@ -14,7 +14,7 @@
 Analysis and machine learning models for predicting e-commerce purchase completions using Google Analytics session metrics.
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
-[![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626?style=flat&logo=jupyter&logoColor=white)](https://jupyter.org/)
+[![Databricks](https://img.shields.io/badge/Platform-Databricks-FF3621?style=flat&logo=databricks&logoColor=white)](https://www.databricks.com/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 [![Dataset](https://img.shields.io/badge/Dataset-UCI%20ML%20Repository-blue?style=flat)](https://archive.ics.uci.edu/dataset/468/online+shoppers+purchasing+intention+dataset)
 
@@ -24,7 +24,7 @@ Analysis and machine learning models for predicting e-commerce purchase completi
 
 ## Overview
 
-Most visitors to an online store leave without buying anything. This project evaluates 12,330 e-commerce sessions to see which browsing behaviors correlate with completed purchases, then tests classification models to predict whether a visitor will buy before leaving the site.
+Most visitors to an online store leave without buying anything. Developed and executed in a Databricks environment, this project evaluates 12,330 e-commerce sessions to identify browsing behaviors associated with completed purchases, then tests classification models to predict whether a visitor will buy before leaving the site.
 
 ---
 
@@ -113,12 +113,16 @@ Models were evaluated using cross-validation on stratified test sets:
 
 ## Quickstart
 
-### Prerequisites
+### Environment and Execution
 
-* Python 3.10 or higher
-* Jupyter Notebook or JupyterLab
+The analysis and machine learning pipeline were built and executed in **Databricks**. 
 
-### Installation
+* **Interactive Report**: Open [`Online Shopper Intentions Project.html`](Online%20Shopper%20Intentions%20Project.html) directly in any web browser to view the complete Databricks execution, charts, tables, and code without needing a live cloud cluster.
+* **Import to Databricks**: You can import the exported code or HTML directly into your own Databricks workspace or run it locally in Python.
+
+### Local Python Setup (Optional)
+
+If running models locally:
 
 1. Clone this repository:
    ```bash
@@ -137,17 +141,9 @@ Models were evaluated using cross-validation on stratified test sets:
    source .venv/bin/activate
    ```
 
-3. Install the dependencies:
+3. Install dependencies:
    ```bash
    pip install -r requirements.txt
-   ```
-
-### Running the project
-
-* **View the report**: Open `Online Shopper Intentions Project.html` directly in a browser to read the charts and code outputs.
-* **Launch Jupyter**:
-   ```bash
-   jupyter lab
    ```
 
 ---
