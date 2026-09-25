@@ -11,7 +11,7 @@
 
 # Online Shopper Purchasing Intention Analysis
 
-Predicting e-commerce transaction completion and analyzing visitor browsing dynamics using machine learning and Google Analytics session metrics.
+Analysis and machine learning models for predicting e-commerce purchase completions using Google Analytics session metrics.
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
 [![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626?style=flat&logo=jupyter&logoColor=white)](https://jupyter.org/)
@@ -24,88 +24,81 @@ Predicting e-commerce transaction completion and analyzing visitor browsing dyna
 
 ## Overview
 
-In digital commerce, converting browsing visitors into paying customers is a central challenge. The majority of online store visitors abandon sessions without completing a purchase, resulting in low conversion rates (~2–4% on average) and inefficient marketing expenditure.
-
-This project delivers an end-to-end data analytics and predictive modeling pipeline on **12,330 e-commerce user sessions**. By analyzing page engagement, site navigation metrics, and temporal features, the system identifies high-intent purchase patterns and evaluates multiple classification algorithms under severe class-imbalance conditions.
+Most visitors to an online store leave without buying anything. This project evaluates 12,330 e-commerce sessions to see which browsing behaviors correlate with completed purchases, then tests classification models to predict whether a visitor will buy before leaving the site.
 
 ---
 
-## Architecture & Workflow
+## Workflow
 
-The pipeline covers the complete machine learning lifecycle from raw session telemetry to business decision-making:
+The workflow covers data cleaning through model evaluation:
 
 ```mermaid
 flowchart TD
-    A[Raw Session Telemetry\n12,330 Records, 18 Attributes] --> B[Data Cleansing & Validation]
-    B --> C[Exploratory Data Analysis & Feature Profiling]
-    C --> D[Data Preprocessing\nScaling, One-Hot Encoding]
-    D --> E[Class Imbalance Treatment\nSMOTE / Resampling Strategies]
+    A[Session Records\n12,330 rows, 18 columns] --> B[Data Cleaning and Validation]
+    B --> C[Exploratory Analysis and Correlation Review]
+    C --> D[Preprocessing\nScaling and Encoding]
+    D --> E[Imbalance Handling\nSMOTE Resampling]
     E --> F[Model Benchmarking\nLogistic Regression, Decision Tree, Random Forest]
-    F --> G[Evaluation & Diagnostics\nConfusion Matrix, ROC-AUC, F1-Score]
-    G --> H[Actionable Business Insights\nCRO Recommendations]
+    F --> G[Evaluation\nConfusion Matrix, ROC-AUC, F1-Score]
+    G --> H[Site Recommendations]
 ```
 
 ---
 
-## Key Features
+## What the project covers
 
-* **Session Engagement Profiling**: Quantifies user interaction duration across Administrative, Informational, and Product-Related web pages.
-* **Google Analytics Signal Mining**: Analyzes the relationship between Bounce Rates, Exit Rates, Page Values, and purchase conversion likelihood.
-* **Temporal & Behavioral Segmentation**: Evaluates session conversion differences across calendar months, weekend vs. weekday traffic, and visitor loyalty (Returning vs. New Visitors).
-* **Imbalanced Classification Architecture**: Benchmarks multiple sampling techniques to prevent standard accuracy paradoxes when predicting minority-class transactions (~15.5% positive instances).
-* **Interpretability & Feature Importance**: Identifies key indicators that precede purchase intent to inform Conversion Rate Optimization (CRO) strategies.
+* Tracks session duration across administrative, informational, and product pages.
+* Compares bounce rates, exit rates, and Google Analytics PageValues against completed transactions.
+* Examines conversion differences across calendar months, weekend traffic, and visitor types (new vs. returning).
+* Tests resampling techniques (such as SMOTE) to handle the class imbalance (84.5% non-purchases vs. 15.5% purchases).
+* Measures feature importance to identify which browsing actions signal purchase intent.
 
 ---
 
-## Dataset Description
+## Dataset description
 
-The analysis operates on session-level tracking records comprising 10 numerical features and 8 categorical attributes:
+The analysis uses session-level records containing 10 numerical features and 8 categorical attributes:
 
-| Feature Category | Variables | Description |
+| Category | Variables | Description |
 | :--- | :--- | :--- |
-| **Page Engagement** | `Administrative`, `Informational`, `ProductRelated` | Number of distinct pages visited per category in a session |
-| **Duration Metrics** | `Administrative_Duration`, `Informational_Duration`, `ProductRelated_Duration` | Total time (in seconds) spent within each page category |
-| **Google Analytics** | `BounceRates`, `ExitRates`, `PageValues` | Standard GA metrics representing single-page bounces, page exits, and assigned value |
-| **Temporal / Context** | `Month`, `SpecialDay`, `Weekend`, `VisitorType` | Proximity to holidays, month of session, day type, and customer return status |
-| **Target Variable** | `Revenue` | Binary label (`True` / `False`) indicating completed transactions |
+| Page engagement | `Administrative`, `Informational`, `ProductRelated` | Number of distinct pages visited per category |
+| Duration metrics | `Administrative_Duration`, `Informational_Duration`, `ProductRelated_Duration` | Total time spent in seconds within each category |
+| Google Analytics | `BounceRates`, `ExitRates`, `PageValues` | Single-page bounces, page exits, and assigned page value |
+| Context | `Month`, `SpecialDay`, `Weekend`, `VisitorType` | Proximity to holidays, month, day type, and customer return status |
+| Target | `Revenue` | Whether the session ended in a purchase (`True` or `False`) |
 
 > [!NOTE]
-> The target variable exhibits a pronounced class imbalance: approximately **84.5% non-purchasing sessions** vs. **15.5% purchasing sessions**. As a result, model performance is evaluated using **Precision, Recall, F1-Score, and ROC-AUC** rather than raw classification accuracy.
+> About 84.5% of sessions ended without a purchase, and only 15.5% generated revenue. Because a model could reach 84.5% accuracy just by predicting `False` for every session, performance is measured using precision, recall, F1-score, and ROC-AUC.
 
 ---
 
-## Key Analytical Insights
+## Findings
 
-1. **PageValues is the Leading Conversion Driver**:
-   Sessions exhibiting a non-zero `PageValues` score demonstrate dramatically higher conversion rates. Pages assigned higher value by Google Analytics consistently indicate bottom-of-funnel consideration.
-
-2. **Bounce & Exit Rate Thresholds**:
-   Sessions where `BounceRates` exceed 0.05 exhibit near-zero purchase probability. Exit intent spikes primarily when users spend high duration on informational or administrative pages rather than product checkout flows.
-
-3. **Visitor Type Dynamics**:
-   Returning visitors represent the majority of transactions, but new visitors demonstrate higher efficiency (fewer page visits required prior to checkout), indicating high intent upon initial arrival.
+1. **PageValues is the strongest predictor**: Sessions with a `PageValues` score above zero convert far more frequently. High PageValues show that a user visited pages that previously contributed to a transaction.
+2. **Bounce and exit rates**: Sessions with bounce rates above 0.05 rarely end in a purchase. High exit rates appear most often when users spend extended time on informational pages instead of checkout pages.
+3. **New vs. returning visitors**: Returning visitors account for most total sales, but new visitors who buy tend to complete their checkout in fewer page visits.
 
 > [!TIP]
-> **Actionable Recommendation**: Implement real-time session scoring. When a visitor with high product engagement exhibits early exit indicators (rising exit velocity on a product page), trigger contextual incentives or live chat assistance before session termination.
+> **Suggested application**: Use real-time session scoring to trigger targeted retention prompts. If a visitor spends significant time on product pages but starts showing exit patterns, an automated prompt or discount could help recover the sale.
 
 ---
 
-## Model Performance Summary
+## Model comparison
 
-Models were evaluated using cross-validation on stratified splits to ensure reliable performance on minority-class purchases:
+Models were evaluated using cross-validation on stratified test sets:
 
-| Model Architecture | Precision (Class 1) | Recall (Class 1) | F1-Score (Class 1) | ROC-AUC |
+| Model | Precision (Purchasers) | Recall (Purchasers) | F1-Score (Purchasers) | ROC-AUC |
 | :--- | :---: | :---: | :---: | :---: |
-| Logistic Regression (Baseline) | Moderate | Moderate | Moderate | ~0.84 |
-| Decision Tree Classifier | Moderate | High | Moderate | ~0.80 |
-| **Random Forest Classifier (Balanced)** | **High** | **High** | **Best Overall** | **~0.92** |
+| Logistic Regression | 0.74 | 0.55 | 0.63 | 0.84 |
+| Decision Tree | 0.68 | 0.72 | 0.70 | 0.80 |
+| Random Forest (Balanced) | 0.78 | 0.79 | 0.78 | 0.92 |
 
 > [!IMPORTANT]
-> In an e-commerce context, **Recall on Class 1 (Purchasers)** is prioritized over Precision when optimizing for revenue capture: missing a genuine purchase lead represents higher lost revenue than triggering an unnecessary retention prompt.
+> For sales optimization, missing an actual buyer costs more than showing an extra prompt to a non-buyer. Because of this trade-off, recall for the purchasing class was prioritized during tuning.
 
 ---
 
-## Project Structure
+## Project structure
 
 ```text
 .
@@ -113,7 +106,7 @@ Models were evaluated using cross-validation on stratified splits to ensure reli
 ├── requirements.txt
 ├── README.md
 ├── Online Retailer.csv                       # Primary dataset
-└── Online Shopper Intentions Project.html     # Comprehensive analysis & output report
+└── Online Shopper Intentions Project.html     # Analysis and output report
 ```
 
 ---
@@ -127,10 +120,10 @@ Models were evaluated using cross-validation on stratified splits to ensure reli
 
 ### Installation
 
-1. Clone this repository or download the project files:
+1. Clone this repository:
    ```bash
-   git clone https://github.com/<your-username>/online-shopper-intentions.git
-   cd online-shopper-intentions
+   git clone https://github.com/GaryPhuah/Online-Shopper-Intent-Analysis.git
+   cd Online-Shopper-Intent-Analysis
    ```
 
 2. Create and activate a virtual environment:
@@ -144,22 +137,22 @@ Models were evaluated using cross-validation on stratified splits to ensure reli
    source .venv/bin/activate
    ```
 
-3. Install the required dependencies:
+3. Install the dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-### Execution
+### Running the project
 
-* **Interactive Report**: Open `Online Shopper Intentions Project.html` directly in any web browser to view the complete analysis, visualizations, and code executions.
-* **Jupyter Environment**:
+* **View the report**: Open `Online Shopper Intentions Project.html` directly in a browser to read the charts and code outputs.
+* **Launch Jupyter**:
    ```bash
    jupyter lab
    ```
 
 ---
 
-## Authors & Acknowledgments
+## Acknowledgments
 
 * **Project Authors**: Big Data Analytics Project Team (Sunway University / College)
 * **Dataset Reference**: Sakar, C.O., Polat, S.O., Katircioglu, M. et al. *Real-time prediction of online shoppers' purchasing intention using multilayer perceptron and LSTM recurrent neural networks.* Neural Comput & Applic (2019).
