@@ -89,6 +89,10 @@ The analysis uses session-level records containing 10 numerical features and 8 c
 
 ## Model comparison
 
+<img src="assets/analysis_results_dashboard.png" alt="Exploratory Data Analysis and Model Evaluation Results" width="100%"/>
+
+<br/>
+
 Models were evaluated using cross-validation on stratified test sets:
 
 | Model | Precision (Purchasers) | Recall (Purchasers) | F1-Score (Purchasers) | ROC-AUC |
