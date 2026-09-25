@@ -150,5 +150,10 @@ If running models locally:
 
 ## Acknowledgments
 
-* **Project Authors**: Big Data Analytics Project Team (Sunway University / College)
+* **Project Authors**:
+  * [Phuah Hong Xuan](https://github.com/GaryPhuah)
+  * Yee Jun Hui
+  * Pua Hoong Ze
+  * Luk Rin Ven  
+  *(Diploma in Computer Science, Sunway University / College)*
 * **Dataset Reference**: Sakar, C.O., Polat, S.O., Katircioglu, M. et al. *Real-time prediction of online shoppers' purchasing intention using multilayer perceptron and LSTM recurrent neural networks.* Neural Comput & Applic (2019).
