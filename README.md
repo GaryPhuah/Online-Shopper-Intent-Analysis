@@ -18,6 +18,10 @@ Analysis and machine learning models for predicting e-commerce purchase completi
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 [![Dataset](https://img.shields.io/badge/Dataset-UCI%20ML%20Repository-blue?style=flat)](https://archive.ics.uci.edu/dataset/468/online+shoppers+purchasing+intention+dataset)
 
+<br/>
+
+<img src="assets/project_showcase_banner.png" alt="Project Showcase Banner" width="100%"/>
+
 </div>
 
 ---
