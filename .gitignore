@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.ipynb_checkpoints
+
+# Environment
+.env
+.venv/
+env/
+venv/
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# University Coursework & Rubric Files (Prevent leaking private school docs)
+*.docx
+*.pptx
+*.pdf
+!README.md
